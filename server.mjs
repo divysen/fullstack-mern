@@ -6,7 +6,8 @@ if( config().error ){
 }
 
 //**Establish connection to Database */
-// const ConnectToDb = require('./utils/mongodb-connection');
+import ConnectDb from './utils/mongodb-connection.mjs';
+ConnectDb();
 
 /**Import packages */
 import Express from 'express';
@@ -30,12 +31,11 @@ app.set('view engine','ejs');
 app.use(
     Helmet(),
     ExpressRateLimit({windowMs: 1000, max: 100}),
-    Timeout('3s'),
-    Express.static('public')
+    Timeout('3s')
 );
 
 //**Register routes to Express App */
 app.use('/api',ApiEndPoints);
-app.use(PublicRoutes);
+app.use(Express.static('public'),PublicRoutes);
 
 export default app;
